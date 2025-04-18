@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <color name="lightPrimary">#82B1FF</color>             <!-- Soft blue -->
+    <color name="lightSecondary">#FFB74D</color>           <!-- Light orange -->
+    <color name="lightBackground">#121212</color>          <!-- Deep dark gray -->
+    <color name="lightSurface">#1E1E1E</color>             <!-- Slightly lighter dark for cards, sheets -->
+    <color name="lightOnPrimary">#000000</color>           <!-- Text on primary (blue button text) -->
+    <color name="lightOnBackground">#000000</color>        <!-- Main text color -->
+    <color name="lightError">#F44336</color>               <!-- Red for errors -->
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="darkPrimary">#0066FF</color>
+    <color name="darkSecondary">#FF6F00</color>
+    <color name="darkSurface">#F5F5F5</color>
+    <color name="darkOnPrimary">#FFFFFF</color>
+    <color name="darkOnBackground">#FFFFFF</color>
+    <color name="darkError">#D32F2F</color>
+    <color name="darkBackground">#212121</color>
+</resources>

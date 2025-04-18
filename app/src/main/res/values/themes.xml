@@ -1,0 +1,44 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ApartmentRentalsMobileApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Light theme colors -->
+        <item name="colorPrimary">@color/lightPrimary</item>
+        <item name="colorSecondary">@color/lightSecondary</item>
+        <item name="colorSurface">@color/lightSurface</item>
+        <item name="colorOnPrimary">@color/lightOnPrimary</item>
+        <item name="colorOnBackground">@color/lightOnBackground</item>
+        <item name="colorError">@color/lightError</item>
+    </style>
+
+    <style name="Theme.ApartmentRentalsMobileApp" parent="Base.Theme.ApartmentRentalsMobileApp" />
+
+    <style name="CustomTextField" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:textColor">@color/lightBackground</item>
+        <item name="android:textColorHint">@color/lightBackground</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="helperTextTextColor">@color/lightOnBackground</item>
+    </style>
+
+
+    <style name="CustomButton" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/lightPrimary</item>
+        <item name="android:textColor">@color/lightOnPrimary</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:insetLeft">16dp</item>
+        <item name="android:insetRight">16dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomTextStyle" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">@color/lightOnBackground</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>
