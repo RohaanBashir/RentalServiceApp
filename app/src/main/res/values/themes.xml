@@ -6,7 +6,7 @@
         <!-- Light theme colors -->
         <item name="colorPrimary">@color/lightPrimary</item>
         <item name="colorSecondary">@color/lightSecondary</item>
-        <item name="colorSurface">@color/lightSurface</item>
+        <item name="colorSurface">@color/darkOnBackground</item>
         <item name="colorOnPrimary">@color/lightOnPrimary</item>
         <item name="colorOnBackground">@color/lightOnBackground</item>
         <item name="colorError">@color/lightError</item>

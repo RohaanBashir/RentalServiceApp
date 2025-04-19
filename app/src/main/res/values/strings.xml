@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Apartment Rentals Mobile App</string>
+
+    <string name="firebase_reference">https://rental-app-8495a-default-rtdb.asia-southeast1.firebasedatabase.app/</string>
 </resources>

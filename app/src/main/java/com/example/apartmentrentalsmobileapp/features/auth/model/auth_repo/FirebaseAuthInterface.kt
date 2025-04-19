@@ -7,5 +7,9 @@ import kotlinx.coroutines.Deferred
 interface FirebaseAuthInterface {
 
     suspend fun loginIn(email:String, pass:String) : FirebaseUser?;
-    suspend fun signUp(name:String, email:String, pass:String) : FirebaseUser?;
+    suspend fun signUp(name:String, email:String, pass:String,role: String) : FirebaseUser?;
+    suspend fun saveUserToDatabase(user: User)
+    suspend fun checkUserRole(uid: String):String;
+    suspend fun getCurrentUserToken():String;
+    suspend fun getCurrentUserUser(uid: String):User;
 }

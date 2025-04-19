@@ -5,10 +5,11 @@
         <item name="android:colorBackground">@color/darkBackground</item>
         <item name="colorPrimary">@color/darkPrimary</item>
         <item name="colorSecondary">@color/darkSecondary</item>
-        <item name="colorSurface">@color/darkSurface</item>
+        <item name="colorSurface">@color/lightOnBackground</item>
         <item name="colorOnPrimary">@color/darkOnPrimary</item>
         <item name="colorOnBackground">@color/darkOnBackground</item>
         <item name="colorError">@color/darkError</item>
+        <item name="android:statusBarColor">@color/darkBackground</item>
     </style>
 
 

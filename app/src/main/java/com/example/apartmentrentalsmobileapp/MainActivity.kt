@@ -25,11 +25,5 @@ class MainActivity : AppCompatActivity() {
             else -> false
         }
 
-
-        //code here
-
-
-
-
     }
 }

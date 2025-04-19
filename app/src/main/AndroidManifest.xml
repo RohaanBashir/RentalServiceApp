@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,24 +17,29 @@
         android:theme="@style/Theme.ApartmentRentalsMobileApp"
         tools:targetApi="31">
         <activity
+            android:name=".features.CreateAppartment.views.CreateApartmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".features.retailer.views.Admin"
+            android:exported="false" />
+        <activity
+            android:name=".features.normal_user.views.NormalUser"
+            android:exported="false" />
+        <activity
             android:name=".features.auth.views.SignUpPage"
-            android:exported="true" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".features.auth.views.LoginPage"
-            android:exported="true" >
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -41,7 +41,12 @@ android {
 
 dependencies {
 
-    implementation("androidx.compose.material3:material3:1.3.2")
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.androidx.material3)
+    implementation (libs.androidx.security.crypto)
+    implementation(libs.google.firebase.database)
+    implementation ("com.github.Dhaval2404:ImagePicker:2.1")
 
 
     implementation(libs.androidx.core.ktx)
@@ -53,6 +58,7 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
