@@ -27,13 +27,17 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
     val authStatus = MutableLiveData<String>()
     var currentUser: User? = null
     val navigateToOffline = MutableLiveData<Boolean>()
+    var redirectToHome: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+
 
 
     init {
+        //checking for the offline mode
         val hasInternet = NetworkUtils.isInternetAvailable(getApplication())
         val sharedPreferences = createEncryptedPreferences(getApplication())
-        val value = sharedPreferences.getString("logedIn", null)
         navigateToOffline.value = !hasInternet && sharedPreferences.getString("logedIn", null) == "true"
+        redirectToHome.value = hasInternet && sharedPreferences.getString("logedIn", null) == "true"
+
     }
 
     fun signUp(name: String, email: String, pass: String, role: String) {
@@ -62,7 +66,6 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
                 val result = withContext(Dispatchers.IO) {
                     firebaseAuthInterface.loginIn(email, pass)
                 }
-
                 //getting token and storing into encrypted sharedPreferences
                 val token = try {
                     result?.getIdToken(true)?.await()?.token ?: throw Exception("Token is null")
@@ -73,6 +76,7 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
                     sharedPreferences = createEncryptedPreferences(context)
                 }
 
+                currentUser = firebaseAuthInterface.getCurrentUserUser(result.uid)
                 withContext(Dispatchers.IO) {
                     sharedPreferences?.edit()?.apply {
                         putString("token", token)
@@ -85,7 +89,6 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
                 }
 
                 //now see if its admin or normal_user
-                currentUser = firebaseAuthInterface.getCurrentUserUser(result.uid)
                 if (currentUser?.role == "Regular User") {
                     authStatus.value = "Regular User"
                 } else {
@@ -100,7 +103,8 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    public fun createEncryptedPreferences(context: Context): SharedPreferences {
+
+    fun createEncryptedPreferences(context: Context): SharedPreferences {
         val masterKey = MasterKey.Builder(context.applicationContext)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
@@ -114,15 +118,4 @@ class AuthViewModel(application: Application): AndroidViewModel(application) {
         )
     }
 
-    suspend fun verifyToken(): Boolean {
-
-        try {
-            return sharedPreferences?.getString(
-                "token",
-                ""
-            ) == firebaseAuthInterface.getCurrentUserToken()
-        } catch (e: Exception) {
-            throw Exception(e.toString())
-        }
-    }
 }

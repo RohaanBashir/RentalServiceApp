@@ -52,9 +52,6 @@ class ApartmentAdapter(
             }
         }
     }
-
-
-
     class ApartmentDiffCallback : DiffUtil.ItemCallback<Apartment>() {
         override fun areItemsTheSame(oldItem: Apartment, newItem: Apartment) =
             oldItem.id == newItem.id

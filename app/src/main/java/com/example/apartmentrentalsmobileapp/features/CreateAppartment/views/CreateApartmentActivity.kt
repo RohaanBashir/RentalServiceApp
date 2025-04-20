@@ -16,6 +16,7 @@ import com.example.apartmentrentalsmobileapp.features.CreateAppartment.viewModel
 import com.example.apartmentrentalsmobileapp.features.retailer.entity.Apartment
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 class CreateApartmentActivity : AppCompatActivity() {
 
@@ -41,6 +42,10 @@ class CreateApartmentActivity : AppCompatActivity() {
         selectedImageView  = findViewById(R.id.apartmentImage)
 
         val editMode = intent.getStringExtra("editMode") == "true"
+
+
+
+
 
         viewModel.loading.observe(this) { isLoading ->
             if (isLoading) {
@@ -82,17 +87,23 @@ class CreateApartmentActivity : AppCompatActivity() {
                     && noRooms.text.isNotBlank() && price.text.isNotBlank()
                     && imgUri != null
                 ) {
-                    val updated = Apartment(
-                        id           = apartmentId,
-                        imageUrl     = imgUri.toString(),
-                        description  = description.text.toString(),
-                        areaSize     = area.text.toString(),
-                        rooms        = noRooms.text.toString(),
-                        pricePerMonth= price.text.toString(),
-                        ownerId      = intent.getStringExtra("ownerId")!!
-                    )
-                    viewModel.updateApartment(updated)
-                    finish()
+                    if(NetworkUtils.isInternetAvailable(this)){
+                        val updated = Apartment(
+                            id           = apartmentId,
+                            imageUrl     = imgUri.toString(),
+                            description  = description.text.toString(),
+                            areaSize     = area.text.toString(),
+                            rooms        = noRooms.text.toString(),
+                            pricePerMonth= price.text.toString(),
+                            ownerId      = intent.getStringExtra("ownerId")!!
+                        )
+                        viewModel.updateApartment(updated)
+                        finish()
+                    }else{
+                        val rootView = findViewById<View>(android.R.id.content)
+                        Snackbar.make(rootView, "Check you internet connection and try again ...", Snackbar.LENGTH_SHORT).show()
+                    }
+
                 } else {
                     Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 }
@@ -100,9 +111,7 @@ class CreateApartmentActivity : AppCompatActivity() {
 
         }
     else{
-
             viewModel.loading.observe(this) { isLoading->
-
                 if(isLoading){
                     add.text = ""
                     add.isEnabled = false

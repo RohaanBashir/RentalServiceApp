@@ -38,7 +38,7 @@
                     android:textStyle="bold"
                     app:layout_anchorGravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/UserBtnIcon"
+                    app:layout_constraintEnd_toStartOf="@+id/signOutBtn"
                     app:layout_constraintStart_toEndOf="@+id/userTextRole"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="HardcodedText"/>
@@ -57,7 +57,7 @@
 
                 <!-- Sign Out Button -->
                 <ImageButton
-                    android:id="@+id/UserBtnIcon"
+                    android:id="@+id/signOutBtn"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@android:color/transparent"

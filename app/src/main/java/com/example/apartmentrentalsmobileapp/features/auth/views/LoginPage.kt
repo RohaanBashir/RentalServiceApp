@@ -1,5 +1,6 @@
 package com.example.apartmentrentalsmobileapp.features.auth.views
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -23,6 +24,7 @@ import com.google.firebase.FirebaseApp
 class LoginPage : AppCompatActivity() {
 
 
+    @SuppressLint("UnsafeIntentLaunch")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -63,6 +65,31 @@ class LoginPage : AppCompatActivity() {
             }
         }
 
+        //if he is already logged in
+        authViewModel.redirectToHome.observe (this){ value ->
+            if(value == true){
+                val sharedPreferences = authViewModel.createEncryptedPreferences(this)
+                val role = sharedPreferences.getString("role", "null")
+                val name = sharedPreferences.getString("name", "null")
+                if(role == "Regular User"){
+                    val intent = Intent(this, NormalUser::class.java).apply {
+                        putExtra("name", name)
+                        putExtra("role", role)
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val intent = Intent(this, Admin::class.java).apply {
+                        putExtra("name", name)
+                        putExtra("role", role)
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        }
         //auth status and getting to the new screen
         authViewModel.authStatus.observe(this) { status ->
             if(status.toString() == "Admin"){

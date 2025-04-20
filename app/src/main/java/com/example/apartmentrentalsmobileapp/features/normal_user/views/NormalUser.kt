@@ -2,6 +2,7 @@ package com.example.apartmentrentalsmobileapp.features.normal_user.views
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,13 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apartmentrentalsmobileapp.R
+import com.example.apartmentrentalsmobileapp.features.auth.model.auth_repo.FirebaseAuthInterface
+import com.example.apartmentrentalsmobileapp.features.auth.model.data.FirebaseAuthImp
+import com.example.apartmentrentalsmobileapp.features.auth.views.LoginPage
 import com.example.apartmentrentalsmobileapp.features.normal_user.view_model.NormalUserViewModel
 import com.example.apartmentrentalsmobileapp.features.retailer.views.UserApartmentAdapter
 import com.google.android.material.chip.Chip
@@ -20,6 +25,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NormalUser : AppCompatActivity(), NormalUser.FilterDialogFragment.FilterListener {
 
@@ -36,11 +43,26 @@ class NormalUser : AppCompatActivity(), NormalUser.FilterDialogFragment.FilterLi
         findViewById<TextView>(R.id.userTextRole).text = "Normal User"
 
         val fab = findViewById<FloatingActionButton>(R.id.filterFab)
+        var authInterface: FirebaseAuthInterface = FirebaseAuthImp()
 
         // Sign out
-        findViewById<ImageButton>(R.id.UserBtnIcon).setOnClickListener {
-            finish()
+        findViewById<ImageButton>(R.id.signOutBtn).setOnClickListener {
+
+            if(NetworkUtils.isInternetAvailable(this)){
+                lifecycleScope.launch(Dispatchers.IO) {
+                    authInterface.signOut(application)
+                }
+                var intent = Intent(this, LoginPage::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val rootView = findViewById<View>(android.R.id.content)
+                Snackbar.make(rootView, "check connection and try again...", Snackbar.LENGTH_SHORT).show()
+            }
         }
+
+
+
 
         // RecyclerView
         val recyclerView = findViewById<RecyclerView>(R.id.propertyList)

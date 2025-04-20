@@ -1,5 +1,10 @@
 package com.example.apartmentrentalsmobileapp.features.auth.model.data
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.apartmentrentalsmobileapp.features.auth.entities.User
 import com.example.apartmentrentalsmobileapp.features.auth.model.auth_repo.FirebaseAuthInterface
 import com.example.apartmentrentalsmobileapp.secrets.MySecrets
@@ -124,6 +129,38 @@ class FirebaseAuthImp : FirebaseAuthInterface {
         }
     }
 
+    override suspend fun signOut(context: Context) {
+        try {
+            auth.signOut()
+            var sharedPreferences = createEncryptedPreferences(context)
+            sharedPreferences.edit().remove("token").apply()
+            sharedPreferences.edit().remove("currentUid").apply()
+            sharedPreferences.edit().remove("name").apply()
+            sharedPreferences.edit().remove("role").apply()
+            sharedPreferences.edit().remove("logedIn").apply()
+
+
+        } catch (e: FirebaseAuthException) {
+            throw Exception("Sign out failed: ${e.message}")
+        } catch (e: Exception) {
+            throw Exception("Unexpected error during sign out: ${e.message}")
+        }
+    }
+    fun createEncryptedPreferences(context: Context): SharedPreferences {
+        val masterKey = MasterKey.Builder(context.applicationContext)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        return EncryptedSharedPreferences.create(
+            context.applicationContext,
+            "secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
+
 
 }
+
 
