@@ -100,5 +100,10 @@ class Admin : AppCompatActivity() {
         super.onResume()
         viewModel.refreshApartments()
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.saveCachedApartmentToRoom()
+    }
 }
 

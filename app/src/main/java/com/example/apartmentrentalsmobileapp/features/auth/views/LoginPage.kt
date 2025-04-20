@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.apartmentrentalsmobileapp.R
+import com.example.apartmentrentalsmobileapp.features.OfflineMode.views.OfflineMode
 import com.example.apartmentrentalsmobileapp.features.auth.view_model.AuthViewModel
 import com.example.apartmentrentalsmobileapp.features.normal_user.views.NormalUser
 import com.example.apartmentrentalsmobileapp.features.retailer.views.Admin
@@ -48,6 +49,17 @@ class LoginPage : AppCompatActivity() {
         loginBtn.setOnClickListener {
             if(!email.text.isEmpty() && !pass.text.isEmpty()){
                 authViewModel.logIn(email.text.toString(),pass.text.toString(), applicationContext)
+            }
+        }
+
+        authViewModel.navigateToOffline.observe(this) {  value ->
+            if(value == true){
+                val sharedPreferences = authViewModel.createEncryptedPreferences(this)
+                var intent = Intent(this, OfflineMode::class.java)
+                intent.putExtra("name", sharedPreferences.getString("name", "OfflineMode"))
+                intent.putExtra("role", sharedPreferences.getString("role", "Offline"))
+                startActivity(intent)
+                finish()
             }
         }
 

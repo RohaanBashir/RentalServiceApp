@@ -1,23 +1,23 @@
 package com.example.apartmentrentalsmobileapp.features.auth.view_model
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.apartmentrentalsmobileapp.features.auth.entities.User
 import com.example.apartmentrentalsmobileapp.features.auth.model.auth_repo.FirebaseAuthInterface
 import com.example.apartmentrentalsmobileapp.features.auth.model.data.FirebaseAuthImp
-import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class AuthViewModel: ViewModel() {
+class AuthViewModel(application: Application): AndroidViewModel(application) {
 
 
     private val firebaseAuthInterface: FirebaseAuthInterface = FirebaseAuthImp()
@@ -26,6 +26,15 @@ class AuthViewModel: ViewModel() {
     var sharedPreferences: SharedPreferences? = null
     val authStatus = MutableLiveData<String>()
     var currentUser: User? = null
+    val navigateToOffline = MutableLiveData<Boolean>()
+
+
+    init {
+        val hasInternet = NetworkUtils.isInternetAvailable(getApplication())
+        val sharedPreferences = createEncryptedPreferences(getApplication())
+        val value = sharedPreferences.getString("logedIn", null)
+        navigateToOffline.value = !hasInternet && sharedPreferences.getString("logedIn", null) == "true"
+    }
 
     fun signUp(name: String, email: String, pass: String, role: String) {
 
@@ -68,7 +77,10 @@ class AuthViewModel: ViewModel() {
                     sharedPreferences?.edit()?.apply {
                         putString("token", token)
                         putString("currentUid", result.uid)
-                        apply() // async save
+                        putString("name" ,currentUser?.name)
+                        putString("role" ,currentUser?.role)
+                        putString("logedIn", "true")
+                        apply()
                     } ?: throw Exception("SharedPreferences not initialized")
                 }
 
@@ -88,7 +100,7 @@ class AuthViewModel: ViewModel() {
         }
     }
 
-    private fun createEncryptedPreferences(context: Context): SharedPreferences {
+    public fun createEncryptedPreferences(context: Context): SharedPreferences {
         val masterKey = MasterKey.Builder(context.applicationContext)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()

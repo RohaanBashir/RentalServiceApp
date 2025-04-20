@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    id("com.google.devtools.ksp") version "2.0.21-1.0.27" // Check latest version
 }
 
 
@@ -42,11 +43,18 @@ android {
 dependencies {
 
 
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation (libs.dhaval2404.imagepicker)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.androidx.material3)
     implementation (libs.androidx.security.crypto)
     implementation(libs.google.firebase.database)
-    implementation ("com.github.Dhaval2404:ImagePicker:2.1")
+
+
+
 
 
     implementation(libs.androidx.core.ktx)
