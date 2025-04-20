@@ -51,7 +51,7 @@ Apartment preview images are loaded from local storage paths (on-device), as Fir
 ## 📦 Tech Stack
 
 - Kotlin
-- Supabase Auth
+- Firebase Auth
 - Room DB (for caching)
 - Material 3 (Jetpack Compose compatible UI components)
 - EncryptedSharedPreferences
