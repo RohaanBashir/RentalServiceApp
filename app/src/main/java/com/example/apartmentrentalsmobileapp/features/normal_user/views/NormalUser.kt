@@ -43,7 +43,7 @@ class NormalUser : AppCompatActivity(), NormalUser.FilterDialogFragment.FilterLi
         findViewById<TextView>(R.id.userTextRole).text = "Normal User"
 
         val fab = findViewById<FloatingActionButton>(R.id.filterFab)
-        var authInterface: FirebaseAuthInterface = FirebaseAuthImp()
+        var authInterface: FirebaseAuthInterface = FirebaseAuthImp(application)
 
         // Sign out
         findViewById<ImageButton>(R.id.signOutBtn).setOnClickListener {

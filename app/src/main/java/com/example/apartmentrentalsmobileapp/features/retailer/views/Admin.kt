@@ -40,7 +40,7 @@ class Admin : AppCompatActivity() {
 
         val name = findViewById<TextView>(R.id.Name)
         name.text = intent.getStringExtra("name")
-        var authInterface: FirebaseAuthInterface = FirebaseAuthImp()
+        var authInterface: FirebaseAuthInterface = FirebaseAuthImp(application)
 
         var btnSignOut = findViewById<ImageButton>(R.id.btnIcon)
 

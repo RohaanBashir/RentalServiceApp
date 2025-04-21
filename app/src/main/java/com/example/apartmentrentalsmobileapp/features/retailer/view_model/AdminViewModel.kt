@@ -26,7 +26,7 @@ class ApartmentViewModel(application: Application) : AndroidViewModel(applicatio
     val loading = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String?>()
     private val roomDatabaseAdminInterface = RoomDatabaseAdminImp(application)
-    val auth: FirebaseAuthInterface = FirebaseAuthImp()
+    val auth: FirebaseAuthInterface = FirebaseAuthImp(application)
 
 
     init {

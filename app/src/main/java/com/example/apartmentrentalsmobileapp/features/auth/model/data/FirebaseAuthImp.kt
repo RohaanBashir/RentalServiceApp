@@ -3,6 +3,7 @@ package com.example.apartmentrentalsmobileapp.features.auth.model.data
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.apartmentrentalsmobileapp.features.auth.entities.User
@@ -22,7 +23,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 
-class FirebaseAuthImp : FirebaseAuthInterface {
+class FirebaseAuthImp(application: Application) : FirebaseAuthInterface {
 
 
     private val auth = FirebaseAuth.getInstance()
@@ -30,6 +31,15 @@ class FirebaseAuthImp : FirebaseAuthInterface {
 
     val database = FirebaseDatabase.getInstance(secrets.firebaseDatabaseReferenceLink)
     val usersRef = database.getReference("users")
+
+
+    private val roomInstance = Room.databaseBuilder(
+        application,
+        AppDatabase::class.java,
+        "apartment_database"
+    ).build()
+    private val apartmentDao = roomInstance.cachedApartmentDao()
+
 
 
     override suspend fun loginIn(email: String, pass: String): FirebaseUser? = suspendCancellableCoroutine { cont ->
@@ -138,8 +148,8 @@ class FirebaseAuthImp : FirebaseAuthInterface {
             sharedPreferences.edit().remove("name").apply()
             sharedPreferences.edit().remove("role").apply()
             sharedPreferences.edit().remove("logedIn").apply()
-
-
+            apartmentDao.clearAll()
+            
         } catch (e: FirebaseAuthException) {
             throw Exception("Sign out failed: ${e.message}")
         } catch (e: Exception) {

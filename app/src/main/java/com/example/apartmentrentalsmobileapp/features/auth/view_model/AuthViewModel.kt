@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 class AuthViewModel(application: Application): AndroidViewModel(application) {
 
 
-    private val firebaseAuthInterface: FirebaseAuthInterface = FirebaseAuthImp()
+    private val firebaseAuthInterface: FirebaseAuthInterface = FirebaseAuthImp(application)
     val showLoading = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
     var sharedPreferences: SharedPreferences? = null
